@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const token = '1007008451:AAFJZMHJrpWTFDOd8yIGHa_JVujSpzlfoVM';
 const bot = new TelegramBot(token, {polling: true});
+
 const Welcome = 'Этого Бота вы можете использовать в целях публикации статей и любой вам угодной информации.'+ '\n' +'Для того что бы запостить новую статью просто перешлите ее мне.'
 bot.onText(/\/start/, (msg) => {
     const userId = msg.from.id;
@@ -25,8 +26,14 @@ bot.on('photo', function(msg) {
     bot.on( 'message',(msg) => {
         bot.sendMessage(userId, 'Заголовок добавлен')
     })
+    bot.onText(/\/title (.+)/, (msg, match) => {
+        const userId = msg.from.id;
+        const resp = match[1]
+        bot.sendMessage(userId, resp)
+        console.log(resp)
+    })
     let article = {
-        title: msg,
+        title: resp,
         pic: photoId,
         data: msg.caption
     }
